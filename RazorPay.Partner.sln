@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32519.379
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazorPay.Partner", "RazorPay.Partner\RazorPay.Partner.csproj", "{BF93DF9C-0A5E-46DD-9B1F-E68BF38AFD6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazorPay.Partner.Sample", "RazorPay.Partner.Sample\RazorPay.Partner.Sample.csproj", "{B25AF473-72F7-4E2B-BF50-AF0418E28DC1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BF93DF9C-0A5E-46DD-9B1F-E68BF38AFD6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF93DF9C-0A5E-46DD-9B1F-E68BF38AFD6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF93DF9C-0A5E-46DD-9B1F-E68BF38AFD6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF93DF9C-0A5E-46DD-9B1F-E68BF38AFD6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B25AF473-72F7-4E2B-BF50-AF0418E28DC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B25AF473-72F7-4E2B-BF50-AF0418E28DC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B25AF473-72F7-4E2B-BF50-AF0418E28DC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B25AF473-72F7-4E2B-BF50-AF0418E28DC1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B7E97EB4-A287-475A-8CBC-0F1DA6923A94}
+	EndGlobalSection
+EndGlobal
