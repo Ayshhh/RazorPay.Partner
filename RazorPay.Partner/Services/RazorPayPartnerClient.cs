@@ -1,4 +1,6 @@
-﻿using RazorPay.Partner.Models;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using Newtonsoft.Json;
+using RazorPay.Partner.Models;
 using RazorPay.Partner.Models.Errors;
 using RazorPay.Partner.Models.Requests;
 using RazorPay.Partner.Models.ResponseModels;
@@ -28,7 +30,7 @@ namespace RazorPay.Partner.Services
         }
         public async Task<ReturnData<T>> CallApi<T>(string relativeurl, object data)
         {
-            
+
             ReturnData<T> returnData = new ReturnData<T>();
             try
             {
@@ -53,14 +55,161 @@ namespace RazorPay.Partner.Services
             }
             return returnData;
         }
-
-
+        public string id;
+        public string stakeholder_id;
         public async void CreateSubMerchantAccount()
         {
 
             string username = Console.ReadLine();
             var result = await CallApi<SubMerchantAccount>("accounts", await SampleData($"{username}@epoqzero.com"));
+            id = result.Data.id;
             //var str = await result.Content.ReadAsStringAsync();
+            //await CreateStakeholder();
+
+            await RequestProductConf();
+
+            // response 400
+            //await FetchSubmerchantAccount();
+            //await UpdateSubmerchantAccount();
+            await FetchStakeholder();
+            await UpdateStakeholder();
+        }
+        public async Task FetchSubmerchantAccount()
+        {
+            var result = await Http.GetAsync($"/accounts/{id}");
+
+        }
+        public async Task UpdateSubmerchantAccount()
+        {
+            var data = @"{""customer_facing_business_name"": ""ABCD Ltd""}";
+            var json = JsonConvert.SerializeObject(data);
+            var Data = new StringContent(json, Encoding.UTF8, "application/json");
+            var result = await Http.PatchAsync($"/accounts/{id}", Data);
+        }
+        public async Task CreateStakeholder()
+        {
+            var result = await CallApi<Stakeholder>($"accounts/{id}/stakeholders", await SampleStakeholderData());
+            stakeholder_id = result.Data.id;
+            //var str = await result.Content.ReadAsStringAsync();
+        }
+        public async Task FetchStakeholder()
+        {
+            var result = await Http.GetAsync($"/accounts/{id}/stakeholders/{stakeholder_id}");
+
+        }
+        public async Task UpdateStakeholder()
+        {
+            var data = @"{
+                        {
+                        ""percentage_ownership"": 20,
+  ""name"": ""Gauri Kumar"",
+  ""relationship"": {
+                ""director"": false,
+    ""executive"": true
+  },
+  ""phone"": {
+                ""primary"": ""9898989898"",
+    ""secondary"": ""9898989898""
+  },
+  ""addresses"": {
+                ""residential"": {
+                    ""street"": ""507, Koramangala 1st block"",
+      ""city"": ""Bangalore"",
+      ""state"": ""Karnataka"",
+      ""postal_code"": ""560035"",
+      ""country"": ""IN""
+                }
+            },
+  ""kyc"": {
+                ""pan"": ""AVOPB1111J""
+  },
+  ""notes"": {
+                ""random_key_by_partner"": ""random_value2""
+  }
+        }
+    }";
+            var json = JsonConvert.SerializeObject(data);
+            var Data = new StringContent(json, Encoding.UTF8, "application/json");
+            var result = await Http.PatchAsync($"/accounts/{id}/stakeholders/{stakeholder_id}", Data);
+
+        }
+        public async Task UploadAccountDocuments()
+        {
+            var result = await CallApi<Document>($"accounts/{id}/documents", await DocumentData());
+        }
+        public async Task RequestProductConf()
+        {
+            var result = await CallApi<Product>($"accounts/{id}/products", await ProductData());
+        }
+        public async Task<UpdateSubmerchantAccountRequest> UpdateAccountData()
+        {
+            var data = new UpdateSubmerchantAccountRequest()
+            {
+                customer_facing_business_name = "ABCD Ltd"
+            };
+            return data;
+        }
+        public async Task<ProductRequest> ProductData()
+        {
+            //var dash = File.Open("C:/Users/Aysha/GitHub/RazorPay.Partner/RazorPay.Partner/globegray.png", FileMode.Open);
+
+            var data = new ProductRequest()
+            {
+                product_name = "payment_gateway",
+                tnc_accepted = true
+            };
+            return data;
+        }
+        public async Task<DocumentRequest> DocumentData()
+        {
+            //var dash = File.Open("C:/Users/Aysha/GitHub/RazorPay.Partner/RazorPay.Partner/globegray.png", FileMode.Open);
+
+            var data = new DocumentRequest()
+            {
+                file = "C:/Users/Aysha/GitHub/RazorPay.Partner/RazorPay.Partner/globegray.png",
+                document_type = "business_proof_url"
+            };
+            return data;
+        }
+        public async Task<StakeholderRequest> SampleStakeholderData()
+        {
+
+            var data = new StakeholderRequest()
+            {
+                percentage_ownership = 10,
+                name = "Gaurav Kumar",
+                email = "blah@gmail.com",
+                relationship = new StakeholderRequest.Relationship
+                {
+                    director = true,
+                    executive = false
+                },
+                phone = new StakeholderRequest.Phone
+                {
+                    primary = "7474747474",
+                    secondary = "7474747474"
+                },
+                addresses = new StakeholderRequest.Addresses
+                {
+                    residential = new StakeholderRequest.Residential
+                    {
+                        street = "506, Koramangala 1st block",
+                        city = "Bengaluru",
+                        state = "Karnataka",
+                        postal_code = "560034",
+                        country = "IN"
+                    }
+                },
+                kyc = new StakeholderRequest.Kyc
+                {
+                    pan = "AVOPB1111K"
+                },
+                notes = new StakeholderRequest.Notes
+                {
+                    random_key_by_partner = "random_value"
+                }
+            };
+            return data;
         }
         public async Task<SubMerchantAccountRequest> SampleData(string email)
         {
@@ -158,10 +307,5 @@ namespace RazorPay.Partner.Services
             };
             return data;
         }
-
-
-
-
-
     }
 }
