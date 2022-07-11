@@ -8,7 +8,7 @@ namespace RazorPay.Partner.Models.ResponseModels
 {
     public class Product
     {
-        public Requested_Configuration requested_configuration { get; set; }
+        public object[] requested_configuration { get; set; }
         public Active_Configuration active_configuration { get; set; }
         public Requirement[] requirements { get; set; }
         public Tnc tnc { get; set; }
@@ -18,10 +18,11 @@ namespace RazorPay.Partner.Models.ResponseModels
         public string activation_status { get; set; }
         public int requested_at { get; set; }
 
-        public class Requested_Configuration
-        {
-            public object[] payment_methods { get; set; }
-        }
+        //public class Requested_Configuration
+        //{
+        //    public object[] payment_methods { get; set; }
+        //}
+
         public class Active_Configuration
         {
             public Payment_Capture payment_capture { get; set; }
@@ -31,6 +32,7 @@ namespace RazorPay.Partner.Models.ResponseModels
             public Notifications notifications { get; set; }
             public Payment_Methods payment_methods { get; set; }
         }
+
         public class Payment_Capture
         {
             public string mode { get; set; }
@@ -109,5 +111,6 @@ namespace RazorPay.Partner.Models.ResponseModels
             public string status { get; set; }
             public string reason_code { get; set; }
         }
+
     }
 }
