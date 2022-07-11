@@ -16,7 +16,7 @@ namespace RazorPay.Partner.Services
 {
     public class RazorPayPartnerClient
     {
-        HttpClient Http;
+        public HttpClient Http;
         public RazorPayPartnerClient(string key = "rzp_test_partner_JWQBw8FIMPrePM", string secret = "0N0OO8TcT9jyMa9m2aKIpwgg")
         {
             Http = new HttpClient()
